@@ -1,0 +1,483 @@
+/* Define CSS variables for the color scheme */
+
+:root {
+  --bg-gradient-start: #0a192f;
+  --bg-gradient-end: #1a1a2e;
+  --bg-gradient: linear-gradient(
+    45deg,
+    var(--bg-gradient-start),
+    var(--bg-gradient-end)
+  );
+  --text-color: #fff;
+  --accent-color: #64ffda;
+  --hover-accent-bg: rgba(100, 255, 218, 0.1);
+
+  --card-front-bg: #112240;
+  --card-back-bg: rgba(17, 34, 64, 0.95);
+  --card-border: rgba(255, 255, 255, 0.3);
+  --card-bg: rgba(255, 255, 255, 0.2);
+}
+
+/* Optional: override variables when dark mode is enabled
+   You can either use the prefers-color-scheme media query or a class on the html element.
+   Below is an example using prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* In dark mode, you may adjust brightness or change accent colors */
+    --bg-gradient-start: #0a192f;
+    --bg-gradient-end: #1a1a2e;
+    --text-color: #ffffff;
+    --accent-color: #64ffda;
+    --card-front-bg: #112240;
+    --card-back-bg: rgba(17, 34, 64, 0.95);
+  }
+}
+
+/* Global styles using the variables */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  min-height: -webkit-fill-available;
+  background: var(--bg-gradient);
+  color: var(--text-color);
+  overflow-x: hidden;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  background-clip: padding-box;
+}
+html {
+  background: var(--bg-gradient) !important;
+}
+
+#root {
+  background: var(--bg-gradient) !important;
+}
+
+.App {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.welcome-container,
+.hero-container {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.welcome-container.visible,
+.hero-container.visible {
+  opacity: 1;
+}
+
+.welcome-container.hidden {
+  opacity: 0;
+}
+
+.welcome-card {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  width: 100%;
+  transition: all 0.3s ease;
+  /* transform: translate(0px, -15%) */
+}
+.welcome-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.container {
+  max-width: 1200px;
+  width: 80%;
+
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 45%,
+    rgba(100, 255, 218, 0.1) 50%,
+    transparent 55%
+  );
+  animation: shine 10s infinite linear;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-50%) translateY(-50%) rotate(0deg);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-50%) rotate(360deg);
+  }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+h1 {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, var(--accent-color), #00bcd4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 4rem 0;
+  perspective: 1000px;
+}
+
+/* Înlocuiește stilurile existente pentru card cu acestea */
+.card {
+  position: relative;
+  height: 400px;
+  perspective: 1000px;
+  -webkit-tap-highlight-color: transparent; /* Elimină highlight-ul pe mobile */
+  user-select: none; /* Previne selectarea textului */
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -webkit-tap-highlight-color: transparent;
+}
+.card-description{
+  padding: 1rem;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--text-color);
+  text-align: center;
+  letter-spacing: 1px;
+  
+}
+/* Șterge sau comentează această regulă care cauzează probleme */
+/* .card:hover {
+  transform: rotateY(180deg);
+} */
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 15px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  background: var(--card-front-bg);
+}
+
+.card-front {
+  transform: rotateY(0deg);
+}
+
+.card-front h2 {
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+.skill-tag {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.project-btn {
+  padding: 0.8rem 2rem;
+  border: 2px solid var(--accent-color);
+  background: transparent;
+  color: var(--accent-color);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+  margin-top: auto;
+}
+
+.project-btn:hover {
+  background: var(--hover-accent-bg);
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.card-back iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 15px;
+}
+
+.card-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.card h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.card p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.card-back .btn {
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  background: #0a192f;
+  color: #64ffda;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: transform 0.3s;
+}
+
+.card-back .btn:hover {
+  transform: translateY(-3px);
+}
+
+.skills {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.skill-tag {
+  background: rgba(10, 25, 47, 0.3);
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+    padding: 2rem 0;
+    width: 80%;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+}
+
+.about-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  padding-top: 40px;
+}
+
+.about-card {
+  width: 400px;
+  height: 600px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.about-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.about-card {
+  perspective: 1000px;
+}
+
+.about-card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.about-front {
+  background: var(--card-front-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-image {
+  width: 100%;
+  height: 80%;
+  background: linear-gradient(45deg, #64ffda, #00bcd4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8rem;
+}
+
+.click-text {
+  padding: 2rem;
+  text-align: center;
+  font-size: 1.2rem;
+  color: #64ffda;
+}
+
+.about-back {
+  background: var(--card-back-bg);
+  transform: rotateY(180deg);
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.about-content h2 {
+  color: #64ffda;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.about-content p {
+  color: #8892b0;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.skills-section {
+  margin-bottom: 1.5rem;
+}
+
+.skills-section h3 {
+  color: #64ffda;
+  margin-bottom: 0.8rem;
+  font-size: 1.2rem;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.8rem;
+}
+
+.skill-item {
+  background: rgba(100, 255, 218, 0.1);
+  padding: 0.5rem;
+  border-radius: 5px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.contact-links {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.contact-btn {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--accent-color);
+  border-radius: 5px;
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: all 0.3s;
+  font-size: 0.9rem;
+}
+
+.contact-btn:hover {
+  background: var(--hover-accent-bg);
+}
+
+/* Scrollbar styling pentru about-back */
+.about-back::-webkit-scrollbar {
+  width: 6px;
+}
+
+.about-back::-webkit-scrollbar-track {
+  background: rgba(100, 255, 218, 0.1);
+}
+
+.about-back::-webkit-scrollbar-thumb {
+  background: #64ffda;
+  border-radius: 3px;
+}
+
+@media (max-width: 768px) {
+  .about-card {
+    width: 320px;
+    height: 500px;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+.bi-hourglass-split{
+  color: #64ffda;
+  font-size: 120px;
+  margin-bottom: 50px;
+}
