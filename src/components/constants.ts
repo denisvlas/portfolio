@@ -33,6 +33,7 @@ const CARD_CONTENT = {
 
 const PROJECT_CARDS = [
   {
+    id:"1",
     icon: "🚀",
     frontTitle: "Web App",
     frontText: "Aplicație full-stack cu funcționalități avansate",
@@ -41,9 +42,11 @@ const PROJECT_CARDS = [
       "O platformă de analiză a datelor în timp real folosind tehnologii moderne.",
     skills: ["React", "Node.js", "MongoDB"],
     projectUrl: "#",
+    likes:0
     // videoUrl:"https://www.youtube.com/watch?v=HN8JLgExo40"
   },
   {
+    id:"2",
     icon: "📱",
     frontTitle: "Mobile App",
     frontText: "Aplicație mobilă cross-platform",
@@ -52,9 +55,11 @@ const PROJECT_CARDS = [
       "Aplicație pentru monitorizarea activităților zilnice și obiectivelor personale.",
     skills: ["Flutter", "Firebase", "GraphQL"],
     projectUrl: "#",
+    likes:0
     // videoUrl:"https://www.youtube.com/watch?v=8WrY1oDpbXk"
   },
   {
+    id:"3",
     icon: "🤖",
     frontTitle: "AI Project",
     frontText: "Implementare de machine learning",
@@ -63,6 +68,7 @@ const PROJECT_CARDS = [
       "Bot inteligent pentru automatizarea sarcinilor și asistență în timp real.",
     skills: ["Python", "TensorFlow", "NLP"],
     projectUrl: "#",
+    likes:0
     // videoUrl:"https://www.youtube.com/watch?v=8WrY1oDpbXk"
 
   },
