@@ -1,10 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
-import { FRICTION, SENSITIVITY, VELOCITY_THRESHOLD,CARD_CONTENT,PROJECT_CARDS } from "./constants";
+import {
+  FRICTION,
+  SENSITIVITY,
+  VELOCITY_THRESHOLD,
+  CARD_CONTENT,
+  PROJECT_CARDS,
+} from "./constants";
 import { ProjectCard } from "./ProjectCard";
 
-
-
-function Hero() {
+interface HeroProps {
+  setShowChat: (showChat: boolean) => void
+}
+function Hero({ setShowChat }: HeroProps) {
   // Starea și logica pentru cardul About
   const [rotation, setRotation] = useState<number>(0);
   const [flipped, setFlipped] = useState<boolean>(false);
@@ -77,12 +84,17 @@ function Hero() {
     }
   };
 
+ 
   return (
     <div className="about-section">
       <h2>Denis Vlas</h2>
       <p>Software Enveloper</p>
       <br />
-      {/* Cardul About */}
+      <button className="project-btn" onClick={() => setShowChat(true)}>
+        Chat with AI
+      </button>
+<br />
+
       <div
         className="about-card"
         onPointerDown={onPointerDown}
@@ -156,11 +168,12 @@ function Hero() {
       </div>
 
       {/* Cardurile de proiect */}
-        <div className="cards-container">
-          {PROJECT_CARDS.map((card, idx) => (
-            <ProjectCard key={idx} card={card} />
-          ))}
-        </div>
+      <div className="cards-container">
+        {PROJECT_CARDS.map((card, idx) => (
+          <ProjectCard key={idx} card={card} />
+        ))}
+      </div>
+      {/* <ChatWindow /> */}
     </div>
   );
 }

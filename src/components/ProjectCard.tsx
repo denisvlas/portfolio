@@ -24,7 +24,7 @@ export function ProjectCard({ card }: { card: (typeof PROJECT_CARDS)[0] }) {
         <div className="card-face card-front">
           <h2>{card.frontTitle}</h2>
           <div className="card-description">
-            <p>{card.frontText}</p>
+            {/* <p>{card.frontText}</p> */}
             <p>{card.backText}</p>
 
           </div>

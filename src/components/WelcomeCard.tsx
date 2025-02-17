@@ -1,11 +1,24 @@
-import React from 'react'
+import { useState, useEffect } from "react";
+import { assets } from "../config";
 
-function    WelcomeCard() {
+function WelcomeCard() {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+    }, 3000); // Adjust timing as needed (3000ms = 3 seconds)
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!isVisible) return null;
+
   return (
-    <div className={`welcome-card `}>
-        <img src="src\assets\image.jpg" alt="" />
+    <div className={`welcome-card`}>
+      <img src={assets.images.profile} alt="" />
     </div>
-  )
+  );
 }
 
-export default WelcomeCard
+export default WelcomeCard;

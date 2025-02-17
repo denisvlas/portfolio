@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import "./App.css";
 import Hero from "./components/Hero";
 import WelcomeCard from "./components/WelcomeCard";
+import ChatWindow from "./components/ChatWindow";
 
 function App() {
   const [showWelcome, setShowWelcome] = useState(false);
   const [showHero, setShowHero] = useState(false);
-
+  const [showChat, setShowChat] = useState(false);
   useEffect(() => {
     const showTimeout = setTimeout(() => {
       setShowWelcome(true);
@@ -27,13 +27,12 @@ function App() {
 
   return (
     <div className="App">
-      <div
-        className={`welcome-container ${showWelcome ? "visible" : "hidden"}`}
-      >
-        <WelcomeCard />
+      <div className={`welcome-container ${showWelcome? "visible" : "hidden"}`}>
+        <WelcomeCard/>
       </div>
+      {showChat && (<ChatWindow setShowChat={setShowChat}/>)}
       <div className={`hero-container ${showHero ? "visible" : "hidden"}`}>
-        <Hero />
+        <Hero  setShowChat={setShowChat}/>
       </div>
     </div>
   );
