@@ -10,6 +10,7 @@ export default defineConfig({
       output: {
         assetFileNames: 'assets/[name][extname]'
       }
-    }
+    },
+    outDir: 'dist',
   }
 })
