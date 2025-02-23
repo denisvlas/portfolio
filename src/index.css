@@ -536,3 +536,45 @@ h1 {
   font-size: 30px;
   color: #64ffda;
 }
+
+/* 
+
+.ask-like{
+  position: absolute;
+  height: 30px;
+  background: red;
+  top: -20px;
+  right:  -50px;
+  font-size: 20px;
+  color: #64ffda;
+  z-index: 1000;
+} */
+
+.ask-like {
+  position: absolute;
+  top: -20px;
+  right: -50px;
+  font-size: 20px;
+  color: #64ffda;
+  background: rgba(72, 91, 124, 0.3);
+  padding: 5px 10px;
+  border-radius: 10px;
+  z-index: 1000;
+  opacity: 0;
+  animation: askLikeFade 1s forwards;
+}
+
+@keyframes askLikeFade {
+  0% {
+    opacity: 0;
+    transform: scale(0.5) translateY(-10px);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(1.1) translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
