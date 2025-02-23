@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest   # Use Ubuntu instead of Windows to have rsync available
+    runs-on: ubuntu-latest     # Using Ubuntu ensures required tools like rsync are available.
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,3 +28,4 @@ jobs:
         with:
           branch: gh-pages
           folder: dist
+          token: ${{ secrets.GITHUB_TOKEN }}
