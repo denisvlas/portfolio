@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/portfolio/',
+  base: '/portfolio',
   build: {
     assetsDir: 'assets',
     rollupOptions: {
@@ -12,5 +12,6 @@ export default defineConfig({
       }
     },
     outDir: 'dist',
-  }
+  },
+
 })

@@ -2,6 +2,7 @@
 const SENSITIVITY = 0.5;
 const FRICTION = 0.97;
 const VELOCITY_THRESHOLD = 0.1;
+import tgbotImage from '../assets/tgbotimg.jpg';
 
 const CARD_CONTENT = {
   front: {
@@ -34,45 +35,23 @@ const CARD_CONTENT = {
 const PROJECT_CARDS = [
   {
     id:"1",
-    icon: "🚀",
-    frontTitle: "Web App",
-    frontText: "Aplicație full-stack cu funcționalități avansate",
-    backTitle: "Smart Analytics Platform",
-    backText:
-      "O platformă de analiză a datelor în timp real folosind tehnologii moderne.",
-    skills: ["React", "Node.js", "MongoDB"],
-    projectUrl: "#",
-    likes:0
-    // videoUrl:"https://www.youtube.com/watch?v=HN8JLgExo40"
-  },
-  {
-    id:"2",
-    icon: "📱",
-    frontTitle: "Mobile App",
-    frontText: "Aplicație mobilă cross-platform",
-    backTitle: "Lifestyle Tracker",
-    backText:
-      "Aplicație pentru monitorizarea activităților zilnice și obiectivelor personale.",
-    skills: ["Flutter", "Firebase", "GraphQL"],
-    projectUrl: "#",
-    likes:0
-    // videoUrl:"https://www.youtube.com/watch?v=8WrY1oDpbXk"
-  },
-  {
-    id:"3",
     icon: "🤖",
-    frontTitle: "AI Project",
-    frontText: "Implementare de machine learning",
-    backTitle: "AI Assistant",
-    backText:
-      "Bot inteligent pentru automatizarea sarcinilor și asistență în timp real.",
-    skills: ["Python", "TensorFlow", "NLP"],
+    frontTitle: "Telegram Ordering Bot",
+    frontText: "Restaurant ordering via Telegram bot and web interface.",
+    backTitle: "Interactive Restaurant Ordering System",
+    description:"A full-stack solution enabling customers to order food without waiting for a waiter, by scanning a QR code. Orders are transmitted to a staff dashboard, providing information about the table, order details, phone number, date, and time. Staff can also update the order status. Built with React, TypeScript, Node.js, Express, and Firebase.",
+    projectImg:tgbotImage,
+    backText:"",
+    skills: ["React", "TypeScript", "Node.js", "Express", "Firebase", "Telegram Bot API", "WebSockets", "REST API","ngrok",],
     projectUrl: "#",
-    likes:0
-    // videoUrl:"https://www.youtube.com/watch?v=8WrY1oDpbXk"
-
+    likes:0,
+    liveLink:"",
+    githubLink :"",
+    problemSolved:"Streamlining the restaurant ordering process and improving order accuracy.",
+    videoUrl:"https://player.cloudinary.com/embed/?public_id=emzt4r6knhpbklv9qwvh&cloud_name=dyrpdnkvs&profile=cld-default"
   },
 ];
+
 
 
 export { SENSITIVITY, FRICTION, VELOCITY_THRESHOLD, CARD_CONTENT, PROJECT_CARDS };

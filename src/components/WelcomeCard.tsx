@@ -1,18 +1,19 @@
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react";
 import { assets } from "../config";
 
 function WelcomeCard() {
-  const [isVisible, setIsVisible] = useState(true);
+  // const [isVisible, setIsVisible] = useState(false);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-    }, 3000); // Adjust timing as needed (3000ms = 3 seconds)
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setIsVisible(false);
+  //   }, 3000); // Adjust timing as needed (3000ms = 3 seconds)
 
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
-  if (!isVisible) return null;
+  // if (!isVisible)
+     return null;
 
   return (
     <div className={`welcome-card`}>

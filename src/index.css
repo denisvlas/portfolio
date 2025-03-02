@@ -211,6 +211,13 @@ h1 {
   text-align: center;
   letter-spacing: 1px;
 }
+.card-img{
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 50px;
+}
 /* Șterge sau comentează această regulă care cauzează probleme */
 /* .card:hover {
   transform: rotateY(180deg);
@@ -234,8 +241,11 @@ h1 {
   background: var(--card-front-bg);
 }
 
+
 .card-front {
   transform: rotateY(0deg);
+  /* gap: 3rem; */
+
 }
 
 .card-front h2 {

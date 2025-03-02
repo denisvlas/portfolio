@@ -1,20 +1,21 @@
 import { useEffect, useRef, useState } from "react";
+import DOMPurify from "dompurify";
 import "./ChatWindow.css";
+
 interface ChatWindowProps {
   setShowChat: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-
 const quickQuestions = [
-    "Care sunt proiectele tale principale?",
-    "Ce tehnologii folosești?",
-    "Care este experiența ta profesională?",
-    "Ce studii ai?"
-  ];
+  "Care sunt proiectele tale principale?",
+  "Ce tehnologii folosești?",
+  "Care este experiența ta profesională?",
+  "Ce studii ai?",
+];
 
 const systemPrompt = {
-    role: "system",
-    content: `<h4>👋 Bună! Sunt asistentul virtual al lui Denis.</h4>
+  role: "system",
+  content: `<h4>👋 Bună! Sunt asistentul virtual al lui Denis.</h4>
   <p>Pot să îți ofer informații despre:</p>
   <ul>
     <li><b>Experiența profesională</b> și educația lui Denis</li>
@@ -22,8 +23,8 @@ const systemPrompt = {
     <li><b>Tehnologiile</b> pe care le folosește</li>
     <li><b>Skill-urile</b> și domeniile de expertiză</li>
   </ul>
-  <p>Cu ce te pot ajuta? 😊</p>`
-  };
+  <p>Cu ce te pot ajuta? 😊</p>`,
+};
 
 const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
   const [messages, setMessages] = useState<any>([]);
@@ -31,29 +32,60 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-
   const handleQuickQuestion = (question: string) => {
     setInput(question);
-    sendMessage(question); // Pass the question directly instead of waiting for setInput
+    sendMessage(question);
   };
+
   useEffect(() => {
-    setMessages([{ 
-      sender: "ai", 
-      text: systemPrompt.content
-    }]);
+    setMessages([
+      {
+        sender: "ai",
+        text: systemPrompt.content,
+      },
+    ]);
   }, []);
+
+  // Function to sanitize user input using a strict configuration
+  const sanitizeUserInput = (dirty: string): string => {
+    // Disallow any tags or attributes by setting empty allowed lists.
+    return DOMPurify.sanitize(dirty, {
+      ALLOWED_TAGS: [],
+      ALLOWED_ATTR: [],
+    });
+  };
+
   const sendMessage = async (messageText?: string) => {
+    // Curăță inputul utilizatorului (doar text simplu, fără HTML)
     const textToSend = messageText || input;
+    setInput("");
+    const safeUserText = sanitizeUserInput(textToSend);
+    console.log("User input sanitized:", safeUserText);
 
-    if (textToSend.trim() === "") return;
+    if (safeUserText.trim() === "") return;
 
-    const userMessage = { sender: "user", text: textToSend };
-    setMessages((prev: any) => [...prev, userMessage]);
+    const userMessage = { sender: "user", text: safeUserText };
+    // setMessages((prev: any) => [...prev, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
+
     setIsLoading(true);
     setError(null);
 
+    const conversationContext = updatedMessages.map((msg, index) => {
+      // Presupunem că primul mesaj (index 0) este promptul de sistem.
+      if (index === 0) {
+        return { role: "system", content: msg.text };
+      }
+      return {
+        role: msg.sender === "user" ? "user" : "assistant",
+        content: msg.text,
+      };
+    });
+    console.log("mess", conversationContext);
+
     try {
-      const response = await fetch(
+      const response: any = await fetch(
         "https://workers-playground-bitter-heart-da25.vlasdenis2008.workers.dev/",
         {
           method: "POST",
@@ -62,27 +94,37 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
           },
           body: JSON.stringify({
             model: "llama-3.2-90b-vision-preview",
-            messages: [
-              {
-                role: "user",
-                content: textToSend,
-              },
-            ],
+            messages: conversationContext,
           }),
         }
       );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
       const data = await response.json();
-      console.log(data);
+      console.log("res", data);
 
+      if (data.flag) {
+        // Creează un mesaj de tip eroare care va rămâne în chat
+        const flaggedMessage = { sender: "error", text: data.explanation };
+        setMessages((prev: any) => [...prev, flaggedMessage]);
+        // Scoate mesajul utilizatorului din lista de mesaje, dacă e nevoie
+        const indexOfFlaggedMessage = updatedMessages.findIndex(
+          (message) => message.text === safeUserText
+        );
+        if (indexOfFlaggedMessage !== -1) {
+          updatedMessages.splice(indexOfFlaggedMessage, 1);
+        }
+      }
+      // Pentru output-ul AI se permite HTML, dar îl curățăm din siguranță
       const aiMessage = { sender: "ai", text: data.content };
       setMessages((prev: any) => [...prev, aiMessage]);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred");
+      // Adaugă mesajul de eroare direct în chat
+      const errorMessage =
+        err instanceof Error ? err.message : "An error occurred";
+      setMessages((prev: any) => [
+        ...prev,
+        { sender: "error", text: errorMessage },
+      ]);
       console.error("Error:", err);
     } finally {
       setIsLoading(false);
@@ -90,9 +132,7 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
     }
   };
 
-
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -100,8 +140,7 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isLoading]); // Scroll when messages or loading state changes
-
+  }, [messages, isLoading]);
 
   return (
     <div className="chat-container">
@@ -116,13 +155,15 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
           </div>
           {messages.map((msg: any, index: number) => (
             <div key={index} className={`message ${msg.sender}`}>
-              {/* {msg.text} */}
-              <span dangerouslySetInnerHTML={{ __html: msg.text }} />
-
+              {/* Pentru output AI se permite HTML dar este trecut prin DOMPurify */}
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: msg.text,
+                }}
+              />
             </div>
           ))}
-
-{messages.length === 1 && (
+          {messages.length === 1 && (
             <div className="quick-questions">
               {quickQuestions.map((question, index) => (
                 <button
@@ -143,7 +184,6 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
           )}
           {error && <div className="message error">{error}</div>}
           <div ref={messagesEndRef} />
-
         </div>
         <div className="input-container">
           <input
@@ -154,7 +194,10 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
             disabled={isLoading}
             placeholder="Type a message..."
           />
-          <button onClick={()=>sendMessage()} disabled={isLoading || !input.trim()}>
+          <button
+            onClick={() => sendMessage()}
+            disabled={isLoading || !input.trim()}
+          >
             {isLoading ? "Sending..." : "Send"}
           </button>
         </div>

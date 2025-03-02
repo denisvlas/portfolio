@@ -170,6 +170,7 @@ import {
 import { db, auth } from "../../firestore";
 import { signInAnonymously } from "firebase/auth";
 import confetti from "canvas-confetti";
+import { useNavigate } from "react-router-dom";
 
 export function ProjectCard({ card }: { card: (typeof PROJECT_CARDS)[0] }) {
   const [flipped, setFlipped] = useState<boolean>(false);
@@ -269,7 +270,13 @@ export function ProjectCard({ card }: { card: (typeof PROJECT_CARDS)[0] }) {
       console.error("Error updating likes:", error);
     }
   };
+  const navigate = useNavigate();
 
+  const goToProjectPage = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Oprește propagarea pentru a nu declanșa și handleClick
+    const projectName = card.frontTitle.toLowerCase().replace(/\s+/g, '-');
+    navigate(`/${projectName}`);
+  };
   return (
     <div className="card" onClick={handleClick}>
       {askLike && flipped && (
@@ -293,7 +300,13 @@ export function ProjectCard({ card }: { card: (typeof PROJECT_CARDS)[0] }) {
           <h2>{card.frontTitle}</h2>
           <div className="card-description">
             <p>{card.backText}</p>
+            <img className="card-img" src={card.projectImg} alt="" />
           </div>
+          
+          {/* <button className="project-btn" onClick={handleClick}>See Project</button> */}
+        </div>
+        <div className="card-face card-back" >
+          {/* denis hasn't implemented this yet, mai asteptam */}
           <div className="skills">
             {card.skills.map((skill, i) => (
               <span key={i} className="skill-item">
@@ -301,10 +314,6 @@ export function ProjectCard({ card }: { card: (typeof PROJECT_CARDS)[0] }) {
               </span>
             ))}
           </div>
-          <button className="project-btn">See Project</button>
-        </div>
-        <div className="card-face card-back">
-          denis hasn't implemented this yet, mai asteptam
           <div className="likes-container">
             {likes > 0 && <span className="likes">{likes}</span>}
             <i
@@ -312,7 +321,9 @@ export function ProjectCard({ card }: { card: (typeof PROJECT_CARDS)[0] }) {
               onClick={(e) => toggleLike(e)}
             ></i>
           </div>
-          <i className="bi bi-hourglass-split"></i>
+          {/* <i className="bi bi-hourglass-split"></i> */}
+          <button className="project-btn" onClick={goToProjectPage}>See Project</button>
+
         </div>
       </div>
     </div>

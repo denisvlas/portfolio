@@ -1,0 +1,271 @@
+.project-page {
+  padding: 16px;
+  max-width: 100%;
+  margin: 0 auto;
+  font-family: "Poppins", sans-serif;
+  color: #ccd6f6;
+}
+
+/* Butonul de navigare înapoi */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 16px;
+  color: #64ffda;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.back-link i {
+  margin-right: 8px;
+}
+
+/* Titlul proiectului */
+.project-title {
+  font-size: 28px;
+  margin-bottom: 0px;
+  color: #e6f1ff;
+}
+
+/* Secțiuni generale */
+.project-page h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #64ffda;
+}
+
+/* Secțiunea video */
+.project-video-section {
+  margin: 2rem 0 3rem;
+}
+
+.project-video-container {
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  background-color: #0f172a; /* Dark blue background */
+  position: relative;
+  animation: pulse 3s infinite;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.video-wrapper:hover {
+  transform: scale(1.01);
+}
+
+/* Adjust the video aspect ratio container */
+.video-aspect-ratio {
+  position: relative;
+  padding-bottom: 177.78%; /* 9:16 aspect ratio */
+  height: 0;
+  overflow: hidden;
+  /* Remove any internal padding/margins that might create space */
+  margin: 0;
+  border: none;
+}
+
+/* Modify the iframe to fill completely and use object-fit: fill instead of cover */
+.video-aspect-ratio iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: fill; /* Changed from cover to fill */
+  background-color: transparent; /* Ensure no background color on iframe */
+}
+
+.video-placeholder.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 450px;
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  color: #64ffda;
+  text-align: center;
+  padding: 2rem;
+}
+
+.video-placeholder.empty i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+.video-placeholder.empty p {
+  font-size: 1rem;
+  color: #94a3b8;
+}
+
+/* Descriere proiect */
+.project-description {
+  margin-bottom: 32px;
+}
+
+.project-description p {
+  line-height: 1.6;
+  color: #8892b0;
+}
+
+/* Skill-uri */
+.project-skills {
+  margin-bottom: 32px;
+}
+
+.skills-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+/*   
+  .skill-item {
+    background-color: rgba(100, 255, 218, 0.1);
+    color: #64ffda;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 14px;
+  } */
+
+/* Problema rezolvată */
+.project-problem {
+  margin-bottom: 32px;
+}
+
+.project-problem p {
+  line-height: 1.6;
+  color: #8892b0;
+}
+
+/* Footer cu link-uri */
+.project-footer {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid #233554;
+}
+
+.project-links {
+  display: flex;
+  gap: 16px;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  background-color: #1e3a8a;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.project-link i {
+  margin-right: 8px;
+}
+
+/* Stiluri pentru proiect negăsit */
+.project-not-found {
+  text-align: center;
+  padding: 48px 16px;
+  color: #8892b0;
+}
+
+@media (min-width: 768px) {
+  .project-page {
+    padding: 32px;
+    max-width: 800px;
+  }
+
+  .project-title {
+    font-size: 36px;
+  }
+
+  .video-placeholder {
+    height: 300px;
+  }
+}
+
+/* Add a subtle pulsing animation to the video container for aesthetic appeal */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 10px 25px rgba(100, 255, 218, 0);
+  }
+  50% {
+    box-shadow: 0 10px 25px rgba(100, 255, 218, 0.2);
+  }
+  100% {
+    box-shadow: 0 10px 25px rgba(100, 255, 218, 0);
+  }
+}
+
+
+/* Project header with title and like button */
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.project-likes {
+  display: flex;
+  align-items: center;
+  /* gap: 0.5rem; */
+}
+
+.like-button {
+  background: transparent;
+  border: none;
+  color: #e63946;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.like-button:hover {
+  transform: scale(1.2);
+}
+
+.likes-count {
+  font-size: 1rem;
+  /* color: #e63946; */
+  font-weight: bold;
+}
+
+/* Thank you message */
+.thank-you-message {
+  background-color: rgba(100, 255, 218, 0.1);
+  color: #64ffda;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
