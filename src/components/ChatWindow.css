@@ -130,6 +130,11 @@ button {
   font-style: italic;
 }
 
+.message.warning {
+  background-color: rgba(255, 255, 0, 0.1);
+  color: #ffeb3b;
+  border-left: 4px solid #ffeb3b;
+}
 .message.error {
   background-color: rgba(255, 68, 68, 0.1);
   color: #ff4444;

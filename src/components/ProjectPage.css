@@ -1,12 +1,29 @@
+/* Add this at the top of your file */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Auto-scroll behavior */
 .project-page {
   padding: 16px;
   max-width: 100%;
   margin: 0 auto;
   font-family: "Poppins", sans-serif;
   color: #ccd6f6;
+  scroll-margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-bottom: 60px;
 }
 
-/* Butonul de navigare înapoi */
+/* Add this to force scroll position on page load */
+body:has(.project-page) {
+  scroll-behavior: auto;
+  scroll-padding-top: 0;
+  overflow-anchor: none;
+}
+
 .back-link {
   display: inline-flex;
   align-items: center;
@@ -36,12 +53,12 @@
 
 /* Secțiunea video */
 .project-video-section {
-  margin: 2rem 0 3rem;
+  /* margin: 2rem 0 3rem; */
 }
 
 .project-video-container {
   width: 100%;
-  max-width: 450px;
+  max-width: 90%;
   margin: 0 auto;
   border-radius: 12px;
   overflow: hidden;
@@ -66,7 +83,6 @@
 /* Adjust the video aspect ratio container */
 .video-aspect-ratio {
   position: relative;
-  padding-bottom: 177.78%; /* 9:16 aspect ratio */
   height: 0;
   overflow: hidden;
   /* Remove any internal padding/margins that might create space */
@@ -111,7 +127,7 @@
 
 /* Descriere proiect */
 .project-description {
-  margin-bottom: 32px;
+  /* margin-bottom: 32px; */
 }
 
 .project-description p {
@@ -121,7 +137,7 @@
 
 /* Skill-uri */
 .project-skills {
-  margin-bottom: 32px;
+  /* margin-bottom: 32px; */
 }
 
 .skills-container {
@@ -140,7 +156,7 @@
 
 /* Problema rezolvată */
 .project-problem {
-  margin-bottom: 32px;
+  /* margin-bottom: 32px; */
 }
 
 .project-problem p {
@@ -148,9 +164,30 @@
   color: #8892b0;
 }
 
+/* Backend Workflow */
+.project-backend-workflow {
+  /* margin-bottom: 32px; */
+}
+
+.project-backend-workflow p {
+  line-height: 1.6;
+  color: #8892b0;
+}
+
+/* Model Training */
+.project-model-training {
+  /* margin-bottom: 32px; */
+}
+
+.project-model-training p {
+  line-height: 1.6;
+  color: #8892b0;
+}
+
 /* Footer cu link-uri */
 .project-footer {
-  margin-top: 48px;
+  /* margin-top: 48px; */
+  margin-bottom: 20px;
   padding-top: 24px;
   border-top: 1px solid #233554;
 }
@@ -181,11 +218,16 @@
   padding: 48px 16px;
   color: #8892b0;
 }
+.project-page div{
+  color:#8892b0
+}
+
 
 @media (min-width: 768px) {
   .project-page {
     padding: 32px;
     max-width: 800px;
+    padding-bottom: 60px;
   }
 
   .project-title {
@@ -210,13 +252,12 @@
   }
 }
 
-
 /* Project header with title and like button */
 .project-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.5rem;
+  /* margin-bottom: 1.5rem; */
 }
 
 .project-likes {

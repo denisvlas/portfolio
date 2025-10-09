@@ -4,9 +4,7 @@ import {
   SENSITIVITY,
   VELOCITY_THRESHOLD,
   CARD_CONTENT,
-  PROJECT_CARDS,
 } from "./constants";
-import { ProjectCard } from "./ProjectCard";
 
 interface HeroProps {
   setShowChat: (showChat: boolean) => void
@@ -88,7 +86,7 @@ function Hero({ setShowChat }: HeroProps) {
   return (
     <div className="about-section">
       <h2>Denis Vlas</h2>
-      <p>Software Enveloper</p>
+      <p>Software Developer</p>
       <br />
       <button className="project-btn" onClick={() => setShowChat(true)}>
         Chat with AI
@@ -168,11 +166,7 @@ function Hero({ setShowChat }: HeroProps) {
       </div>
 
       {/* Cardurile de proiect */}
-      <div className="cards-container">
-        {PROJECT_CARDS.map((card, idx) => (
-          <ProjectCard key={idx} card={card} />
-        ))}
-      </div>
+      
       {/* <ChatWindow /> */}
     </div>
   );

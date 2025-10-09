@@ -305,21 +305,65 @@ export function ProjectCard({ card }: { card: (typeof PROJECT_CARDS)[0] }) {
           
           {/* <button className="project-btn" onClick={handleClick}>See Project</button> */}
         </div>
+        
         <div className="card-face card-back" >
           {/* denis hasn't implemented this yet, mai asteptam */}
-          <div className="skills">
-            {card.skills.map((skill, i) => (
+         
+          {/* <div className="skills">
+            {card.skills.slice(0,20).map((skill, i) => (
               <span key={i} className="skill-item">
                 {skill}
               </span>
             ))}
-          </div>
+          </div> */}
+
+<div className="skills">
+  {(() => {
+    // Maximum combined character length allowed
+    const MAX_CHARS = 60;
+    // Maximum number of skills to display
+    const MAX_SKILLS = 8;
+    
+    let totalChars = 0;
+    let skillsToShow = [];
+    
+    // Add skills until we hit character or count limit
+    for (let i = 0; i < card.skills.length && i < MAX_SKILLS; i++) {
+      const skill = card.skills[i];
+      totalChars += skill.length;
+      
+      if (totalChars > MAX_CHARS && skillsToShow.length > 0) {
+        break;
+      }
+      
+      skillsToShow.push(
+        <span key={i} className="skill-item">
+          {skill}
+        </span>
+      );
+    }
+    
+    // Add a "+X more" indicator if not all skills are shown
+    if (card.skills.length > skillsToShow.length) {
+      skillsToShow.push(
+        <span key="more" className="skill-item more-skills">
+          +{card.skills.length - skillsToShow.length} more
+        </span>
+      );
+    }
+    
+    return skillsToShow;
+  })()}
+</div>
           <div className="likes-container">
-            {likes > 0 && <span className="likes">{likes}</span>}
+            <div style={{display: "flex", justifyContent: "space-between", gap:"5px"}}>
+              {likes > 0 && <span className="likes">{likes}</span>}
             <i
               className={`bi ${liked ? "bi-heart-fill" : "bi-heart"}`}
               onClick={(e) => toggleLike(e)}
             ></i>
+            </div>
+            
           </div>
           {/* <i className="bi bi-hourglass-split"></i> */}
           <button className="project-btn" onClick={goToProjectPage}>See Project</button>

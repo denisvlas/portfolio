@@ -93,7 +93,6 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            model: "llama-3.2-90b-vision-preview",
             messages: conversationContext,
           }),
         }
@@ -104,7 +103,7 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
 
       if (data.flag) {
         // Creează un mesaj de tip eroare care va rămâne în chat
-        const flaggedMessage = { sender: "error", text: data.explanation };
+        const flaggedMessage = { sender: data.flag==="warning"?"warning":"error", text: data.explanation };
         setMessages((prev: any) => [...prev, flaggedMessage]);
         // Scoate mesajul utilizatorului din lista de mesaje, dacă e nevoie
         const indexOfFlaggedMessage = updatedMessages.findIndex(

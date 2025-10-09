@@ -1,7 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { PROJECT_CARDS } from "./constants";
 import "./ProjectPage.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   doc,
   updateDoc,
@@ -14,6 +14,7 @@ import {
 import { db, auth } from "../../firestore";
 import { signInAnonymously } from "firebase/auth";
 import confetti from "canvas-confetti";
+import Slideshow from "./Slideshow";
 
 export function ProjectPage() {
   const { projectName } = useParams<{ projectName: string }>();
@@ -98,6 +99,14 @@ export function ProjectPage() {
     }
   };
 
+  const topRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (topRef.current) {
+      topRef.current.scrollIntoView({ behavior: "instant" });
+    }
+  }, []);
+
   if (!project) {
     return (
       <div className="project-not-found">
@@ -110,7 +119,7 @@ export function ProjectPage() {
   }
 
   return (
-    <div className="project-page">
+    <div className="project-page" ref={topRef}>
       {/* Buton de navigare înapoi */}
       <Link to="/" className="back-link">
         <i className="bi bi-arrow-left"></i> Back to Projects
@@ -136,31 +145,41 @@ export function ProjectPage() {
         <div className="thank-you-message">Thank you for your like!</div>
       )}
 
-      {/* Secțiunea video */}
+      {/* Secțiunea video sau slideshow */}
       <div className="project-video-section">
-        <h2>Project Demo</h2>
-        <div className="project-video-container">
-          {!project.videoUrl && (
-            <div className="video-placeholder empty">
-              <i className="bi bi-camera-video"></i>
-              <p>Video demo will be available soon</p>
-            </div>
-          )}
-
-          {project.videoUrl && (
-            <div className="video-wrapper">
-              <div className="video-aspect-ratio">
-                <iframe
-                  src={`${project.videoUrl}&autoplay=1&playerVars=modestbranding=1&showinfo=0&controls=1&portrait=1&chrome=0&iv_load_policy=3&playsinline=1&fs=0&rel=0&enablejsapi=1`}
-                  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
-                  allowFullScreen
-                  frameBorder="0"
-                  loading="lazy"
-                ></iframe>
+        {project.slides && project.slides.length > 0 ? (
+          <Slideshow images={project.slides} />
+        ) : (
+          <div className="project-video-container">
+            {!project.videoUrl && project.slides && (
+              <div className="video-placeholder empty">
+                <i className="bi bi-camera-video"></i>
+                <p>Video demo will be available soon</p>
               </div>
-            </div>
-          )}
-        </div>
+            )}
+
+            {project.videoUrl && (
+              <div className="video-wrapper">
+                <div
+                  style={
+                    project.isHorizontalVideo
+                      ? { paddingBottom: "56.25%" }
+                      : { paddingBottom: "177.78%" }
+                  }
+                  className="video-aspect-ratio"
+                >
+                  <iframe
+                    src={`${project.videoUrl}&autoplay=1&playerVars=modestbranding=1&showinfo=0&controls=1&portrait=1&chrome=0&iv_load_policy=3&playsinline=1&fs=0&rel=0&enablejsapi=1`}
+                    allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                    allowFullScreen
+                    frameBorder="0"
+                    loading="lazy"
+                  ></iframe>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Descrierea proiectului */}
@@ -170,6 +189,47 @@ export function ProjectPage() {
       </div>
 
       {/* Tehnologiile folosite */}
+
+      {/* Problema pe care o rezolvă */}
+      <div className="project-problem">
+        <h2>Problem Solved</h2>
+        <p>{project.problemSolved} </p>
+      </div>
+
+  {/* Tehnologii și aspecte tehnice */}
+  {project.technicalHighlights && (
+        <div className="project-technical">
+          <h2>Technical Highlights</h2>
+          <p>{project.technicalHighlights}</p>
+        </div>
+      )}
+      {/* Detalii despre fluxul de lucru */}
+      {project.workflowDetails && (
+        <div className="project-workflow">
+          <h2>
+            {project.beWorkflow ? "Frontend Workflow" : "Workflow Details"}
+          </h2>
+          <p>{project.workflowDetails}</p>
+        </div>
+      )}
+ {/* Backend Workflow */}
+ {project.beWorkflow && (
+        <div className="project-backend-workflow">
+          <h2>Backend Workflow</h2>
+          <p>{project.beWorkflow}</p>
+        </div>
+      )}
+    
+
+     
+
+      {/* Model Training Details */}
+      {project.modelTraining && (
+        <div className="project-model-training">
+          <h2>Model Training</h2>
+          <p>{project.modelTraining}</p>
+        </div>
+      )}
       <div className="project-skills">
         <h2>Tech Stack</h2>
         <div className="skills-container">
@@ -180,42 +240,35 @@ export function ProjectPage() {
           ))}
         </div>
       </div>
-
-      {/* Problema pe care o rezolvă */}
-      <div className="project-problem">
-        <h2>Problem Solved</h2>
-        <p>
-          {project.problemSolved ||
-            "This project was created to solve [problem description]. By implementing [solution], users can now [benefits]."}
-        </p>
-      </div>
-
       {/* Footer cu link-uri către proiect */}
-      <div className="project-footer">
-        {(project.githubLink || project.liveLink) && <h2>View Project</h2>}
-        <div className="project-links">
-          {project.githubLink && (
-            <a
-              href={project.githubLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="project-link"
-            >
-              <i className="bi bi-github"></i> GitHub
-            </a>
-          )}
-          {project.liveLink && (
-            <a
-              href={project.liveLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="project-link"
-            >
-              <i className="bi bi-globe"></i> Live Demo
-            </a>
-          )}
-        </div>
-      </div>
+      {project.githubLink ||
+        (project.liveLink && (
+          <div className="project-footer">
+            {(project.githubLink || project.liveLink) && <h2>View Project</h2>}
+            <div className="project-links">
+              {project.githubLink && (
+                <a
+                  href={project.githubLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="project-link"
+                >
+                  <i className="bi bi-github"></i> GitHub
+                </a>
+              )}
+              {project.liveLink && (
+                <a
+                  href={project.liveLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="project-link"
+                >
+                  <i className="bi bi-globe"></i> Live Demo
+                </a>
+              )}
+            </div>
+          </div>
+        ))}
     </div>
   );
 }

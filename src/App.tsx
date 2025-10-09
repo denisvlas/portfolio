@@ -1,7 +1,8 @@
-import {  useState } from "react";
+import { useState } from "react";
 import Hero from "./components/Hero";
-import WelcomeCard from "./components/WelcomeCard";
 import ChatWindow from "./components/ChatWindow";
+import { PROJECT_CARDS } from "./components/constants";
+import { ProjectCard } from "./components/ProjectCard";
 
 function App() {
   // const [showWelcome, setShowWelcome] = useState(false);
@@ -27,12 +28,17 @@ function App() {
 
   return (
     <div className="App">
-      <div className={`welcome-container ${0? "visible" : "hidden"}`}>
-        <WelcomeCard/>
-      </div>
-      {showChat && (<ChatWindow setShowChat={setShowChat}/>)}
-      <div className={`hero-container ${1 ? "visible" : "hidden"}`}>
-        <Hero  setShowChat={setShowChat}/>
+      {showChat && <ChatWindow setShowChat={setShowChat} />}
+      <div className={`hero-container  visible`}>
+        <Hero setShowChat={setShowChat} />
+        <section>
+          <h2 className="projects-title">Projects</h2>
+          <div className="cards-container">
+            {PROJECT_CARDS.map((card, idx) => (
+              <ProjectCard key={idx} card={card} />
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );
