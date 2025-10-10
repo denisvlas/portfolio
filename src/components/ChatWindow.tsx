@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { logChat } from "../analytics";
 import DOMPurify from "dompurify";
 import "./ChatWindow.css";
 
@@ -26,8 +27,19 @@ const systemPrompt = {
   <p>Cu ce te pot ajuta? 😊</p>`,
 };
 
+type Sender = "user" | "ai" | "error" | "warning";
+interface ChatMessage {
+  sender: Sender;
+  text: string;
+}
+interface ApiResponse {
+  content: string;
+  flag?: "warning" | "error";
+  explanation?: string;
+}
+
 const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
-  const [messages, setMessages] = useState<any>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -64,7 +76,7 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
 
     if (safeUserText.trim() === "") return;
 
-    const userMessage = { sender: "user", text: safeUserText };
+    const userMessage: ChatMessage = { sender: "user", text: safeUserText };
     // setMessages((prev: any) => [...prev, userMessage]);
     const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
@@ -85,7 +97,7 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
     console.log("mess", conversationContext);
 
     try {
-      const response: any = await fetch(
+      const response = await fetch(
         "https://workers-playground-bitter-heart-da25.vlasdenis2008.workers.dev/",
         {
           method: "POST",
@@ -98,13 +110,16 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
         }
       );
 
-      const data = await response.json();
+      const data: ApiResponse = await response.json();
       console.log("res", data);
 
       if (data.flag) {
         // Creează un mesaj de tip eroare care va rămâne în chat
-        const flaggedMessage = { sender: data.flag==="warning"?"warning":"error", text: data.explanation };
-        setMessages((prev: any) => [...prev, flaggedMessage]);
+        const flaggedMessage: ChatMessage = {
+          sender: data.flag === "warning" ? "warning" : "error",
+          text: data.explanation || "",
+        };
+        setMessages((prev) => [...prev, flaggedMessage]);
         // Scoate mesajul utilizatorului din lista de mesaje, dacă e nevoie
         const indexOfFlaggedMessage = updatedMessages.findIndex(
           (message) => message.text === safeUserText
@@ -114,16 +129,24 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
         }
       }
       // Pentru output-ul AI se permite HTML, dar îl curățăm din siguranță
-      const aiMessage = { sender: "ai", text: data.content };
-      setMessages((prev: any) => [...prev, aiMessage]);
+      const aiMessage: ChatMessage = { sender: "ai", text: data.content };
+      setMessages((prev) => [...prev, aiMessage]);
+
+      // Log chat Q/A
+      try {
+        await logChat({
+          question: safeUserText,
+          answer: data?.content,
+          flag: data?.flag || null,
+        });
+      } catch (e) {
+        console.error("chat log error", e);
+      }
     } catch (err) {
       // Adaugă mesajul de eroare direct în chat
       const errorMessage =
         err instanceof Error ? err.message : "An error occurred";
-      setMessages((prev: any) => [
-        ...prev,
-        { sender: "error", text: errorMessage },
-      ]);
+      setMessages((prev) => [...prev, { sender: "error", text: errorMessage }]);
       console.error("Error:", err);
     } finally {
       setIsLoading(false);
@@ -152,7 +175,7 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
               onClick={() => setShowChat(false)}
             ></i>
           </div>
-          {messages.map((msg: any, index: number) => (
+          {messages.map((msg: ChatMessage, index: number) => (
             <div key={index} className={`message ${msg.sender}`}>
               {/* Pentru output AI se permite HTML dar este trecut prin DOMPurify */}
               <span

@@ -5,6 +5,7 @@ import App from "./App.tsx";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import { ProjectPage } from "./components/ProjectPage.tsx";
+import { logVisit } from "./analytics";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -16,3 +17,6 @@ createRoot(document.getElementById("root")!).render(
     </HashRouter>
   </StrictMode>
 );
+
+// Log vizită la încărcarea aplicației
+logVisit();
