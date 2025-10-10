@@ -16,6 +16,10 @@ type VisitPayload = {
   screen?: { width: number; height: number; pixelRatio: number };
   utm?: Record<string, string>;
   path?: string;
+  ip?: string;
+  country?: string;
+  region?: string;
+  city?: string;
 };
 
 type ChatLogPayload = {
@@ -39,6 +43,74 @@ export async function logVisit(payload?: Partial<VisitPayload>): Promise<void> {
       }
     });
 
+    // Încearcă să obții IP și locație (fallback robust)
+    let ip: string | undefined;
+    let country: string | undefined;
+    let region: string | undefined;
+    let city: string | undefined;
+
+    try {
+      // Pas 1: Obținem IP-ul
+      const ipApis = [
+        "https://api.ipify.org?format=json",
+        "https://api64.ipify.org?format=json",
+      ];
+
+      for (const apiUrl of ipApis) {
+        try {
+          const ipResp = await Promise.race([
+            fetch(apiUrl, { cache: "no-store" }),
+            new Promise<Response>((_, reject) =>
+              setTimeout(() => reject(new Error("ip-timeout")), 1500)
+            ) as unknown as Promise<Response>,
+          ]);
+
+          if (ipResp.ok) {
+            const ipData = await ipResp.json();
+            ip = ipData?.ip;
+            if (ip) break;
+          }
+        } catch (ipError) {
+          console.warn(`IP API ${apiUrl} failed:`, ipError);
+        }
+      }
+
+      // Pas 2: Dacă avem IP, obținem informații geografice de la ipinfo.io
+      if (ip) {
+        try {
+          const geoResp = await Promise.race([
+            fetch(`https://ipinfo.io/${ip}/json/`, {
+              cache: "no-store",
+              headers: { "Cache-Control": "no-cache" },
+            }),
+            new Promise<Response>((_, reject) =>
+              setTimeout(() => reject(new Error("geo-timeout")), 2000)
+            ) as unknown as Promise<Response>,
+          ]);
+
+          if (geoResp.ok) {
+            type GeoResponse = {
+              ip?: string;
+              country?: string;
+              region?: string;
+              city?: string;
+              loc?: string;
+            };
+            const geoData: GeoResponse = await geoResp.json();
+
+            country = geoData?.country;
+            region = geoData?.region;
+            city = geoData?.city;
+          }
+        } catch (geoError) {
+          console.warn("ipinfo.io failed:", geoError);
+          // Continuăm cu doar IP-ul
+        }
+      }
+    } catch (e) {
+      console.warn("All location methods failed", e);
+    }
+
     const userId = auth.currentUser?.uid;
     if (!userId) {
       console.error("No user ID available for visit logging");
@@ -57,6 +129,10 @@ export async function logVisit(payload?: Partial<VisitPayload>): Promise<void> {
       utm: Object.keys(utm).length ? utm : undefined,
       path: url.hash || url.pathname,
       userId,
+      ip,
+      country,
+      region,
+      city,
       ...payload,
       ts: new Date(),
     };
@@ -133,9 +209,17 @@ export async function getUserChatHistory(
 }
 
 // Funcție pentru a citi vizitele unui utilizator
-export async function getUserVisits(
-  userId?: string
-): Promise<(VisitPayload & { id: string; userId: string; ts: Date })[]> {
+export async function getUserVisits(userId?: string): Promise<
+  (VisitPayload & {
+    id: string;
+    userId: string;
+    ts: Date;
+    ip?: string;
+    country?: string;
+    region?: string;
+    city?: string;
+  })[]
+> {
   try {
     const targetUserId = userId || auth.currentUser?.uid;
     if (!targetUserId) {

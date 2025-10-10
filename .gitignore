@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+firestore.rules
+TODO
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
