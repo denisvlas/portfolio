@@ -196,8 +196,8 @@ export function ProjectPage() {
         <p>{project.problemSolved} </p>
       </div>
 
-  {/* Tehnologii și aspecte tehnice */}
-  {project.technicalHighlights && (
+      {/* Tehnologii și aspecte tehnice */}
+      {project.technicalHighlights && (
         <div className="project-technical">
           <h2>Technical Highlights</h2>
           <p>{project.technicalHighlights}</p>
@@ -209,19 +209,24 @@ export function ProjectPage() {
           <h2>
             {project.beWorkflow ? "Frontend Workflow" : "Workflow Details"}
           </h2>
-          <p>{project.workflowDetails}</p>
+          <ul>
+            {project.workflowDetails.split("→").map((step, index) => (
+              <li key={index}>{step.trim()}</li>
+            ))}
+          </ul>
         </div>
       )}
- {/* Backend Workflow */}
- {project.beWorkflow && (
+      {/* Backend Workflow */}
+      {project.beWorkflow && (
         <div className="project-backend-workflow">
           <h2>Backend Workflow</h2>
-          <p>{project.beWorkflow}</p>
+          <ul>
+            {project.beWorkflow.split("→").map((step, index) => (
+              <li key={index}>{step.trim()}</li>
+            ))}
+          </ul>
         </div>
       )}
-    
-
-     
 
       {/* Model Training Details */}
       {project.modelTraining && (

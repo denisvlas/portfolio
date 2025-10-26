@@ -2,6 +2,8 @@ const SENSITIVITY = 0.5;
 const FRICTION = 0.97;
 const VELOCITY_THRESHOLD = 0.1;
 import tgbotImage from "../assets/tgbotimg1.jpg";
+import imagenBotImage from "../assets/imagen-bot.png";
+
 import aiNewsImage from "../assets/aiNewsImage.jpg";
 import priceParserImage from "../assets/parserimg2.jpg";
 import brainImg from "../assets/brainTumor.jpg";
@@ -138,7 +140,7 @@ const PROJECT_CARDS = [
     problemSolved:
       "Eliminating manual news aggregation and social media posting while avoiding platform detection measures.",
     workflowDetails:
-      "1. Extract latest news from citesc.eu → 2. Generate AI summaries with Groq API → 3. Create AI images with Blinkshot → 4. Process images with custom templates → 5. Post to Instagram with human-like behavior → 6. Wait appropriate intervals between posts",
+      "Extract latest news from citesc.eu → Generate AI summaries with Groq API → Create AI images with Blinkshot → Process images with custom templates → Post to Instagram with human-like behavior → Wait appropriate intervals between posts",
     technicalHighlights:
       "The system employs sophisticated anti-detection measures including randomized delays, user agent rotation, cookie persistence, and simulated human browsing behavior. It uses exponential backoff for error handling and dynamically adjusts posting frequency based on account history to maintain a natural posting pattern.",
     videoUrl: "", // Add video URL if available
@@ -187,7 +189,6 @@ const PROJECT_CARDS = [
       "Streamlines the process of comparing product prices across multiple online stores by automating data extraction and filtering, enabling smarter purchase decisions.",
     videoUrl:
       "https://player.cloudinary.com/embed/?public_id=fzu1ndumfohmxovrmbex&cloud_name=dyrpdnkvs&profile=cld-default",
-      
 
     isHorizontalVideo: true,
   },
@@ -219,7 +220,7 @@ const PROJECT_CARDS = [
     problemSolved:
       "Automating the precise identification of brain tumor boundaries in medical images, reducing the time required for manual segmentation and potentially improving diagnostic accuracy.",
     workflowDetails:
-      "1. Load and preprocess brain MRI images → 2. Create binary masks from annotation files → 3. Train U-Net model with custom loss function → 4. Evaluate model performance → 5. Visualize predictions against ground truth",
+      "Load and preprocess brain MRI images → Create binary masks from annotation files → Train U-Net model with custom loss function → Evaluate model performance → Visualize predictions against ground truth",
     technicalHighlights:
       "The system implements a U-Net architecture with batch normalization for improved training stability. It employs a custom combined loss function that balances pixel-wise accuracy (binary cross-entropy) with structural similarity (Dice coefficient). The model demonstrates strong performance in accurately identifying tumor boundaries in previously unseen brain scans.",
     videoUrl: "",
@@ -263,7 +264,7 @@ const PROJECT_CARDS = [
     problemSolved:
       "Reducing support staff workload by automatically handling routine inquiries while intelligently escalating complex or emotionally charged cases to human operators.",
     workflowDetails:
-      "1. User submits question → 2. System moderates content → 3. AI analyzes sentiment and searches knowledge base → 4. For complex or urgent issues, routes to operator → 5. Operators receive full conversation history → 6. Real-time chat session established → 7. Seamless handoff between AI and humans",
+      "User submits question → System moderates content → AI analyzes sentiment and searches knowledge base → For complex or urgent issues, routes to operator → Operators receive full conversation history → Real-time chat session established → Seamless handoff between AI and humans",
     technicalHighlights:
       "The platform implements sophisticated natural language processing to determine user intent and emotion. It features content moderation, sentiment analysis to detect urgency and emotion, and intelligent routing based on these factors. The WebSocket architecture enables real-time communication with automatic reconnection, message queuing and persistence across the platform. The knowledge base can be easily expanded in JSON format without code changes.",
     videoUrl:
@@ -274,9 +275,11 @@ const PROJECT_CARDS = [
     id: "6",
     icon: "📄",
     frontTitle: "Document Scanner",
-    frontText: "AI-powered document processing with automatic mask detection and binarization.",
+    frontText:
+      "AI-powered document processing with automatic mask detection and binarization.",
     backTitle: "Intelligent Document Processing System",
-    description: "A sophisticated document cropping and processing application that uses OpenCV for automatic mask detection and AI-powered binarization. Features include multi-file upload, real-time image editing with rotation and filtering, background processing with progress tracking, and export capabilities to PDF. Built with React, TypeScript, Canvas API, and integrates with external binarization services.",
+    description:
+      "A sophisticated document cropping and processing application that uses OpenCV for automatic mask detection and AI-powered binarization. Features include multi-file upload, real-time image editing with rotation and filtering, background processing with progress tracking, and export capabilities to PDF. Built with React, TypeScript, Canvas API, and integrates with external binarization services.",
     projectImg: doccumentScannerImage, // Replace with your actual image variable
     backText: "",
     skills: [
@@ -291,21 +294,65 @@ const PROJECT_CARDS = [
       "File Upload",
       "Real-time Editing",
       "Background Processing",
-      "REST API Integration"
+      "REST API Integration",
     ],
     projectUrl: "#",
     likes: 0,
     liveLink: "",
     githubLink: "",
-    problemSolved: "Automating document digitization and improving image quality for better OCR results and document archiving.",
-    workflowDetails: "1. Upload multiple document images → 2. Automatic mask detection using OpenCV → 3. Interactive crop area adjustment with real-time preview → 4. Apply image filters and rotation → 5. Background binarization processing with progress tracking → 6. Export processed documents to PDF",
-    technicalHighlights: "The frontend implements a sophisticated image processing pipeline using Canvas API for real-time manipulation. It features dynamic handle radius calculation based on image dimensions, edge dragging for precise crop adjustments, and a loupe component for detailed editing. The system uses EventSource for real-time progress updates during background binarization and implements intelligent caching for filter combinations.",
-    beWorkflow: "1. Docker Containerization (TensorFlow 2.15.0-gpu base) → 2. NVIDIA Runtime Configuration → 3. File Upload & Validation → 4. Image Loading with TensorFlow → 5. GPU Memory Configuration (TF_FORCE_GPU_ALLOW_GROWTH) → 6. Image Slicing (224x224 patches) → 7. 4-Directional Augmentation → 8. Neural Network Processing (TensorFlow SavedModel) → 9. Sigmoid Activation + Isotonic Regression Calibration → 10. Image Reconstruction from Slices → 11. Post-processing & Cleanup → 12. PNG Export & File Serving → 13. Volume Mounting for Persistent Storage",
-    videoUrl: "https://player.cloudinary.com/embed/?public_id=document_scanner_n25ndv&cloud_name=dyrpdnkvs&profile=cld-default",
+    problemSolved:
+      "Automating document digitization and improving image quality for better OCR results and document archiving.",
+    workflowDetails:
+      "Upload multiple document images → Automatic mask detection using OpenCV → Interactive crop area adjustment with real-time preview → Apply image filters and rotation → Background binarization processing with progress tracking → Export processed documents to PDF",
+    technicalHighlights:
+      "The frontend implements a sophisticated image processing pipeline using Canvas API for real-time manipulation. It features dynamic handle radius calculation based on image dimensions, edge dragging for precise crop adjustments, and a loupe component for detailed editing. The system uses EventSource for real-time progress updates during background binarization and implements intelligent caching for filter combinations.",
+    beWorkflow:
+      "Docker Containerization (TensorFlow 2.15.0-gpu base) → NVIDIA Runtime Configuration → File Upload & Validation → Image Loading with TensorFlow → GPU Memory Configuration (TF_FORCE_GPU_ALLOW_GROWTH) → Image Slicing (224x224 patches) → 4-Directional Augmentation → Neural Network Processing (TensorFlow SavedModel) → Sigmoid Activation + Isotonic Regression Calibration → Image Reconstruction from Slices → Post-processing & Cleanup → PNG Export & File Serving → Volume Mounting for Persistent Storage",
+    videoUrl:
+      "https://player.cloudinary.com/embed/?public_id=document_scanner_n25ndv&cloud_name=dyrpdnkvs&profile=cld-default",
     isHorizontalVideo: true,
- 
-    modelTraining: "The binarization model uses a modified U-Net architecture with a frozen MobileNetV2 encoder (ImageNet pre-trained) for transfer learning. Training data consists of 224x224 pixel document images with corresponding binary masks from Google Drive. The model implements sophisticated data augmentation including random horizontal/vertical flips, hue adjustments, and innovative synthetic contrast blur generation using 10 random sinusoidal frequencies to simulate realistic document degradation. Training uses Adam optimizer with learning rate 1e-3, binary crossentropy loss, early stopping (patience=10), and learning rate reduction on plateau. The system includes nondeterministic binarization during training (random thresholds 0-255) for improved generalization. For inference, an 8-way test-time augmentation wrapper applies rotations and flips, averaging predictions for robust results. Post-training calibration uses isotonic regression to convert model logits into calibrated probabilities with reliability diagrams. The final model exports to multiple formats (SavedModel, H5, TensorFlow.js) and processes images via 224x224 patches with 4-directional augmentation for handling arbitrary input sizes. GPU optimization includes TF_FORCE_GPU_ALLOW_GROWTH for memory management and batch processing for efficiency."
-  }
+
+    modelTraining:
+      "The binarization model uses a modified U-Net architecture with a frozen MobileNetV2 encoder (ImageNet pre-trained) for transfer learning. Training data consists of 224x224 pixel document images with corresponding binary masks from Google Drive. The model implements sophisticated data augmentation including random horizontal/vertical flips, hue adjustments, and innovative synthetic contrast blur generation using 10 random sinusoidal frequencies to simulate realistic document degradation. Training uses Adam optimizer with learning rate 1e-3, binary crossentropy loss, early stopping (patience=10), and learning rate reduction on plateau. The system includes nondeterministic binarization during training (random thresholds 0-255) for improved generalization. For inference, an 8-way test-time augmentation wrapper applies rotations and flips, averaging predictions for robust results. Post-training calibration uses isotonic regression to convert model logits into calibrated probabilities with reliability diagrams. The final model exports to multiple formats (SavedModel, H5, TensorFlow.js) and processes images via 224x224 patches with 4-directional augmentation for handling arbitrary input sizes. GPU optimization includes TF_FORCE_GPU_ALLOW_GROWTH for memory management and batch processing for efficiency.",
+  },
+  {
+    id: "7",
+    icon: "🎨",
+    frontTitle: "AI Imagen Telegram Bot",
+    frontText:
+      "Micro‑SaaS: AI image generation via Replicate with payments (PayPal/LemonSqueezy), webhooks, references, and Supabase.",
+    backTitle: "Micro‑SaaS: Replicate + Payments + Webhooks",
+    description:
+      "A production‑ready micro‑SaaS Telegram bot for AI image generation powered by Replicate. It supports secure payments via PayPal and LemonSqueezy (one‑off or subscription), cryptographically verified webhooks, and persistence in Supabase. Built for reliability and scale with webhook mode for production (Gunicorn/WSGI, Render) and polling mode for local development.",
+      projectImg: imagenBotImage,
+      backText: "",
+    skills: [
+      "Python",
+      "Flask",
+      "Telegram Bot API",
+      "AsyncIO",
+      "Replicate API",
+      "Supabase",
+      "PayPal Webhooks",
+      "LemonSqueezy",
+      "Gunicorn/WSGI",
+      "Render Deploy",
+    ],
+    projectUrl: "#",
+    likes: 0,
+    liveLink: "",
+    githubLink: "",
+    problemSolved:
+      "Delivers AI image generation directly in Telegram with a micro‑SaaS model, robust payment processing, template control, and reference management on a scalable infrastructure.",
+    workflowDetails:
+      "User selects a template from the catalog (templates.json) → User uploads references: persistent (profile‑level, reusable) and/or temporary (single job) → User edits settings (prompt, template, seed/params) and requests preview → Optional image editing (re‑roll, variations, upscale, overlays) → Payment (PayPal/LemonSqueezy, one‑off/subscription) → Webhook validates signature and confirms → Replicate job runs asynchronously with chosen template and references → Final image delivered and logged in Supabase",
+    technicalHighlights:
+      "Single shared Telegram Application under WSGI; PayPal signature verification (auth_algo, cert_url, transmission_id, signature, timestamp) and LemonSqueezy HMAC validation; support for subscriptions (micro‑SaaS); inline template selection from templates.json; persistent references stored in Supabase; temporary references scoped to job; async Replicate integration with on‑disk media persistence and delivery; HTTP health checks; structured logging and retries.",
+    beWorkflow:
+      "WSGI + Flask for health/webhooks; /telegram/webhook handles Updates, template selections, and reference commands; /webhook/paypal and /webhook/lemonsqueezy verify signatures and map events (including subscriptions); Replicate client executes jobs with selected template and references; Supabase persists user profiles, subscriptions/transactions, references, job metadata, and delivery logs.",
+    videoUrl: "https://player.cloudinary.com/embed/?public_id=VELORA_BOT_uvtaly&cloud_name=dyrpdnkvs&profile=cld-default",
+    isHorizontalVideo: true,
+  },
 ];
 
 export {
