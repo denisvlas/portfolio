@@ -38,7 +38,7 @@ const CARD_CONTENT = {
   back: {
     skills: {
       frontend: {
-        title: "Tehnologii Frontend",
+        title: "Frontend Technologies",
         items: [
           "React",
           "TypeScript",
@@ -49,7 +49,7 @@ const CARD_CONTENT = {
         ],
       },
       backend: {
-        title: "Tehnologii Backend",
+        title: "Backend Technologies",
         items: [
           "Node.js",
           "Python",
@@ -324,8 +324,8 @@ const PROJECT_CARDS = [
     backTitle: "Micro‑SaaS: Replicate + Payments + Webhooks",
     description:
       "A production‑ready micro‑SaaS Telegram bot for AI image generation powered by Replicate. It supports secure payments via PayPal and LemonSqueezy (one‑off or subscription), cryptographically verified webhooks, and persistence in Supabase. Built for reliability and scale with webhook mode for production (Gunicorn/WSGI, Render) and polling mode for local development.",
-      projectImg: imagenBotImage,
-      backText: "",
+    projectImg: imagenBotImage,
+    backText: "",
     skills: [
       "Python",
       "Flask",
@@ -350,7 +350,8 @@ const PROJECT_CARDS = [
       "Single shared Telegram Application under WSGI; PayPal signature verification (auth_algo, cert_url, transmission_id, signature, timestamp) and LemonSqueezy HMAC validation; support for subscriptions (micro‑SaaS); inline template selection from templates.json; persistent references stored in Supabase; temporary references scoped to job; async Replicate integration with on‑disk media persistence and delivery; HTTP health checks; structured logging and retries.",
     beWorkflow:
       "WSGI + Flask for health/webhooks; /telegram/webhook handles Updates, template selections, and reference commands; /webhook/paypal and /webhook/lemonsqueezy verify signatures and map events (including subscriptions); Replicate client executes jobs with selected template and references; Supabase persists user profiles, subscriptions/transactions, references, job metadata, and delivery logs.",
-    videoUrl: "https://player.cloudinary.com/embed/?public_id=VELORA_BOT_uvtaly&cloud_name=dyrpdnkvs&profile=cld-default",
+    videoUrl:
+      "https://player.cloudinary.com/embed/?public_id=VELORA_BOT_uvtaly&cloud_name=dyrpdnkvs&profile=cld-default",
     isHorizontalVideo: true,
   },
 ];

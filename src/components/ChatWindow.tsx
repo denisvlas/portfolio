@@ -8,23 +8,23 @@ interface ChatWindowProps {
 }
 
 const quickQuestions = [
-  "Care sunt proiectele tale principale?",
-  "Ce tehnologii folosești?",
-  "Care este experiența ta profesională?",
-  "Ce studii ai?",
+  "What are your main projects?",
+  "What technologies do you use?",
+  "What is your professional experience?",
+  "What are your studies?",
 ];
 
 const systemPrompt = {
   role: "system",
-  content: `<h4>👋 Bună! Sunt asistentul virtual al lui Denis.</h4>
-  <p>Pot să îți ofer informații despre:</p>
+  content: `<h4>👋 Hello! I'm Denis's virtual assistant.</h4>
+  <p>I can provide you with information about:</p>
   <ul>
-    <li><b>Experiența profesională</b> și educația lui Denis</li>
-    <li><b>Proiectele</b> la care a lucrat</li>
-    <li><b>Tehnologiile</b> pe care le folosește</li>
-    <li><b>Skill-urile</b> și domeniile de expertiză</li>
+    <li><b>Professional experience</b> and Denis's education</li>
+    <li><b>Projects</b> he has worked on</li>
+    <li><b>Technologies</b> he uses</li>
+    <li><b>Skills</b> and areas of expertise</li>
   </ul>
-  <p>Cu ce te pot ajuta? 😊</p>`,
+  <p>How can I help you? 😊</p>`,
 };
 
 type Sender = "user" | "ai" | "error" | "warning";
@@ -68,7 +68,7 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
   };
 
   const sendMessage = async (messageText?: string) => {
-    // Curăță inputul utilizatorului (doar text simplu, fără HTML)
+    // Clean user input (plain text only, no HTML)
     const textToSend = messageText || input;
     setInput("");
     const safeUserText = sanitizeUserInput(textToSend);
@@ -85,7 +85,7 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
     setError(null);
 
     const conversationContext = updatedMessages.map((msg, index) => {
-      // Presupunem că primul mesaj (index 0) este promptul de sistem.
+      // Assume the first message (index 0) is the system prompt.
       if (index === 0) {
         return { role: "system", content: msg.text };
       }
@@ -114,13 +114,13 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
       console.log("res", data);
 
       if (data.flag) {
-        // Creează un mesaj de tip eroare care va rămâne în chat
+        // Create an error message that will remain in chat
         const flaggedMessage: ChatMessage = {
           sender: data.flag === "warning" ? "warning" : "error",
           text: data.explanation || "",
         };
         setMessages((prev) => [...prev, flaggedMessage]);
-        // Scoate mesajul utilizatorului din lista de mesaje, dacă e nevoie
+        // Remove the user message from the list if needed
         const indexOfFlaggedMessage = updatedMessages.findIndex(
           (message) => message.text === safeUserText
         );
@@ -128,7 +128,7 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
           updatedMessages.splice(indexOfFlaggedMessage, 1);
         }
       }
-      // Pentru output-ul AI se permite HTML, dar îl curățăm din siguranță
+      // For AI output HTML is allowed, but we clean it for safety
       const aiMessage: ChatMessage = { sender: "ai", text: data.content };
       setMessages((prev) => [...prev, aiMessage]);
 
@@ -143,7 +143,7 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
         console.error("chat log error", e);
       }
     } catch (err) {
-      // Adaugă mesajul de eroare direct în chat
+      // Add the error message directly to chat
       const errorMessage =
         err instanceof Error ? err.message : "An error occurred";
       setMessages((prev) => [...prev, { sender: "error", text: errorMessage }]);
@@ -177,7 +177,7 @@ const ChatWindow = ({ setShowChat }: ChatWindowProps) => {
           </div>
           {messages.map((msg: ChatMessage, index: number) => (
             <div key={index} className={`message ${msg.sender}`}>
-              {/* Pentru output AI se permite HTML dar este trecut prin DOMPurify */}
+              {/* For AI output HTML is allowed but it passes through DOMPurify */}
               <span
                 dangerouslySetInnerHTML={{
                   __html: msg.text,
