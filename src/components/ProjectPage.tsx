@@ -11,7 +11,7 @@ import {
   arrayUnion,
   arrayRemove,
 } from "firebase/firestore";
-import { db, auth } from "../../firestore";
+import { db, auth, firebaseEnabled } from "../../firestore";
 import { signInAnonymously } from "firebase/auth";
 import confetti from "canvas-confetti";
 import Slideshow from "./Slideshow";
@@ -31,6 +31,7 @@ export function ProjectPage() {
   useEffect(() => {
     const initializeProject = async () => {
       if (!project) return;
+      if (!firebaseEnabled) return;
 
       if (!auth.currentUser) {
         await signInAnonymously(auth);
@@ -58,7 +59,7 @@ export function ProjectPage() {
   }, [project]);
 
   const toggleLike = async () => {
-    if (!project || !auth.currentUser) {
+    if (!project || !firebaseEnabled || !auth.currentUser) {
       console.error("User not authenticated or project not found");
       return;
     }

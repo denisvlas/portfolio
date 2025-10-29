@@ -1,4 +1,4 @@
-import { db, auth } from "../firestore";
+import { db, auth, firebaseEnabled } from "../firestore";
 import {
   addDoc,
   collection,
@@ -30,6 +30,10 @@ type ChatLogPayload = {
 
 export async function logVisit(payload?: Partial<VisitPayload>): Promise<void> {
   try {
+    if (!firebaseEnabled) {
+      console.warn("logVisit skipped: Firebase disabled");
+      return;
+    }
     // Autentificare anonimă pentru analytics
     if (!auth.currentUser) {
       await signInAnonymously(auth);
@@ -155,6 +159,10 @@ export async function logVisit(payload?: Partial<VisitPayload>): Promise<void> {
 
 export async function logChat(payload: ChatLogPayload): Promise<void> {
   try {
+    if (!firebaseEnabled) {
+      console.warn("logChat skipped: Firebase disabled");
+      return;
+    }
     // Autentificare anonimă pentru analytics
     if (!auth.currentUser) {
       await signInAnonymously(auth);
@@ -183,6 +191,10 @@ export async function getUserChatHistory(
   userId?: string
 ): Promise<(ChatLogPayload & { id: string })[]> {
   try {
+    if (!firebaseEnabled) {
+      console.warn("getUserChatHistory skipped: Firebase disabled");
+      return [];
+    }
     const targetUserId = userId || auth.currentUser?.uid;
     if (!targetUserId) {
       console.error("No user ID provided for chat history");
@@ -221,6 +233,10 @@ export async function getUserVisits(userId?: string): Promise<
   })[]
 > {
   try {
+    if (!firebaseEnabled) {
+      console.warn("getUserVisits skipped: Firebase disabled");
+      return [];
+    }
     const targetUserId = userId || auth.currentUser?.uid;
     if (!targetUserId) {
       console.error("No user ID provided for visits history");
