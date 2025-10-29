@@ -21,7 +21,7 @@ This is a personal portfolio website built with React, TypeScript, Vite, and Fir
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/denisvlas/portfolio.git
+git clone <your-repository-url>
 cd portfolio
 ```
 
