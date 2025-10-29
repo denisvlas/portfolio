@@ -167,7 +167,7 @@ import {
   arrayUnion,
   arrayRemove,
 } from "firebase/firestore";
-import { db, auth } from "../../firestore";
+import { db, auth, firebaseEnabled } from "../../firestore";
 import { signInAnonymously } from "firebase/auth";
 import confetti from "canvas-confetti";
 import { useNavigate } from "react-router-dom";
@@ -185,6 +185,7 @@ export function ProjectCard({ card }: { card: (typeof PROJECT_CARDS)[0] }) {
 
   useEffect(() => {
     const initializeProject = async () => {
+      if (!firebaseEnabled) return;
       if (!auth.currentUser) {
         await signInAnonymously(auth);
       }
@@ -227,7 +228,7 @@ export function ProjectCard({ card }: { card: (typeof PROJECT_CARDS)[0] }) {
 
   const toggleLike = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (!auth.currentUser) {
+    if (!firebaseEnabled || !auth.currentUser) {
       console.error("User not authenticated");
       return;
     }
